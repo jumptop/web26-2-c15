@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <title>ch5_블로그_레이아웃_구성_정환희</title>
     <link rel="stylesheet" href="블로그.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.outer-menu-item').hover(function() {
+                $(this).find('.inner-menu').show();
+            }, function() {
+                $(this).find('.inner-menu').hide();
+            });
+        });
+    </script>
 </head>
 <body>
 <div id="page-wrapper">
