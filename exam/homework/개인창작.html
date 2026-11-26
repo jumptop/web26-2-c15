@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로그래밍_학습노트_정환희</title>
+    <!-- 손글씨 글꼴 (Google Fonts) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap">
+    <!-- 1) 교재 완성본(교재완성.html)과 같은 기본 CSS -->
+    <style>
+        /*1. 초기화*/
+            * {
+                margin: 0; padding: 0;
+                font-family: '맑은 고딕', 'Malgun Gothic', 'Gothic', sans-serif;
+            }
+
+            a { text-decoration: none; }
+
+            li { list-style: none; }
+        /*기본 클래스*/
+            .pull-left { float: left; }
+            .pull-right { float: right; }
+        /*2. 페이지 구성*/
+            body {
+                width: 960px; margin: 0 auto;
+                background: #E6E6E6;
+            }
+
+            #page-wrapper {
+                background: white;
+                margin: 40px 0; padding: 10px 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+            }
+        /*3. 헤더 구성*/
+            #main-header { padding: 40px 50px; }
+
+            .master-title {
+                font-size: 30px;
+                color: #101010;
+            }
+
+            .master-description {
+                font-size: 15px; font-weight: 500;
+                color: #383838;
+            }
+        /*4. 네비게이션 및 풀다운 메뉴 구성*/
+            #main-navigation {
+                border-top: 1px solid #CBCBCB;
+                border-bottom: 1px solid #CBCBCB;
+                margin-bottom: 20px;
+                height: 40px;
+            }
+
+            .outer-menu-item {
+                float: left;
+                position: relative;
+            }
+
+            .other-menu-item:hover {
+                background: black;
+                color: white;
+            }
+
+            .menu-title {
+                display: block;
+                height: 30px; line-height: 30px;
+                text-align: center;
+                padding: 5px 20px;
+            }
+
+            .inner-menu {
+                display: none;
+                position: absolute;
+                top: 40px; left: 0;
+                width: 100%;
+                background: white;
+                box-shadow: 0 2px 6px rgba(5, 5, 5, 0.9);
+                z-index: 1000;
+                text-align: center;
+            }
+
+            .inner-menu-item > a {
+                display: block;
+                padding: 5px 10px;
+                color: black;
+            }
+
+            .inner-menu-item > a:hover {
+                background: black;
+                color: white;
+            }
+        /*5. 검색 양식 추가(내비게이션 내부 검색) */
+            .search-bar {
+                height: 26px;
+                padding: 7px;
+            }
+
+            .input-search {
+                display: block;
+                float: left;
+                background-color: #FFFFFF;
+                border: 1px solid #CCCCCC;
+                border-radius: 15px 0 0 15px;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                width: 120px; height: 24px;
+                padding: 0 0 0 10px;
+                font-size: 12px;
+                color: #555555;
+            }
+
+            .input-search:focus {
+                border-color: rgba(82, 168, 236, 0.8);
+                outline: none;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+            }
+
+            .input-search-submit {
+                display: block;
+                float: left;
+                width: 50px; height: 26px;
+                border-radius: 0 15px 15px 0;
+                border: 1px solid #CCCCCC;
+                margin-left: -1px;
+                vertical-align: top;
+                display: inline-block;
+            }
+        /*6. 본문 추가(중앙 내용) */
+        /* body 태그의 너비: 960px */
+        /* #page-wrapper 태그의 padding 속성으로 내용을 너비는 920px */
+        #content { overflow: hidden; }
+
+        #main-section {
+            float: left;
+            width: 710px;
+        }
+
+        #main-aside {
+            float: right;
+            width: 200px;
+        }
+        /*6. 본문 추기(본문 포스트 위쪽) */
+            article {
+                padding: 0 10px 20px 10px;
+                border-bottom: 1px solid #CBCBCB;
+            }
+
+            .article-header { padding: 20px 0;}
+            .article-title {
+                font-size: 25px;
+                font-weight: 500;
+                padding-bottom: 10px;
+            }
+            .article-date { font-size: 13px; }
+            .article-body { font-size: 14px; }
+        /*6. 본문 추가(사이드 메뉴) */
+            .aside-list { padding: 10px 0 30px 0; }
+            .aside-list > h3 {
+                font-size: 15px;
+                font-weight: 600;
+            }
+            .aside-list > li a {
+                margin-left: 8px;
+                font-size: 13px;
+                color: #6C6C6C;
+            }
+    </style>
+    <!-- 2) 개인 창작 스타일: 종이 노트에 손으로 정리한 느낌 (교재 CSS 뒤에 두어 같은 선택자를 덮어씀) -->
+    <style>
+        :root {
+            --desk: #E4D9C5;        /* 책상 */
+            --paper: #FDFAF1;       /* 노트 종이 */
+            --rule: #D3DEE8;        /* 파란 줄 */
+            --margin: #E9A3A0;      /* 빨간 여백선 */
+            --ink: #2C3440;         /* 펜 */
+            --pencil: #7B7466;      /* 연필 */
+            --red-pen: #C0392B;     /* 빨간 펜 */
+            --postit: #FFF1A6;
+            --tab-html: #F5B9A8; --tab-css: #BCD5EE; --tab-js: #F2DB8C;
+            --hand: 'Nanum Pen Script', cursive;
+            --write: 'Gaegu', 'Gowun Dodum', sans-serif;
+        }
+        * { font-family: 'Gowun Dodum', 'Malgun Gothic', sans-serif; }
+        body { background: var(--desk); color: var(--ink); }
+
+        /* 노트 한 권: 종이 + 아래로 겹친 종이 + 왼쪽 펀치 구멍 */
+        #page-wrapper {
+            position: relative; padding: 0; background: var(--paper); border-radius: 4px 10px 10px 4px;
+            box-shadow: 5px 5px 0 -1px #F3EEE2, 10px 10px 0 -2px #EAE3D3, 0 18px 30px rgba(80, 60, 30, 0.25);
+        }
+        #page-wrapper::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 34px;
+            background: radial-gradient(circle at 17px 20px, var(--desk) 6px, rgba(0, 0, 0, 0.12) 7px, transparent 8px) repeat-y;
+            background-size: 34px 40px;
+        }
+
+        /* 헤더: 표지에 손글씨로 쓴 제목 */
+        #main-header { position: relative; padding: 40px 40px 24px 70px; border-bottom: 2px solid var(--margin); }
+        .name-tag {
+            position: absolute; top: 34px; right: 40px; width: 210px; padding: 10px 14px 8px; transform: rotate(2deg);
+            background: white; border: 1.5px solid var(--ink); border-radius: 6px; box-shadow: 2px 3px 0 rgba(80, 60, 30, 0.15);
+        }
+        .name-tag p { font-family: var(--write); font-size: 14px; color: var(--pencil); border-bottom: 1px solid var(--rule); line-height: 26px; }
+        .name-tag p:last-child { border-bottom: none; }
+        .name-tag b { margin-left: 6px; font-family: var(--hand); font-size: 21px; font-weight: 400; color: var(--ink); }
+        .master-title {
+            display: inline-block; font-family: var(--hand); font-size: 58px; font-weight: 400; color: var(--ink);
+            line-height: 1; background: linear-gradient(transparent 60%, #FFE38A 60%, #FFE38A 88%, transparent 88%);
+        }
+        .master-description { margin-top: 10px; font-family: var(--write); font-size: 19px; font-weight: 400; color: var(--pencil); }
+        .stats { margin-top: 14px; }
+        .stat {
+            display: inline-block; margin-right: 10px; padding: 0 10px; transform: rotate(-2deg);
+            font-family: var(--hand); font-size: 22px; color: var(--red-pen);
+            border: 1.5px solid var(--red-pen); border-radius: 4px;
+        }
+        .stat b { font-family: var(--hand); font-weight: 400; }
+
+        /* 내비게이션: 노트 옆에 붙인 색인 탭 */
+        #main-navigation {
+            position: sticky; top: 0; z-index: 100;
+            height: 48px; padding: 0 28px 0 30px; margin: 0 0 0 34px;
+            background: var(--paper); border-top: none; border-bottom: 1px solid var(--rule);
+        }
+        .outer-menu-item { margin-right: 6px; }
+        .menu-title {
+            margin-top: 10px; height: 38px; line-height: 40px; padding: 0 20px;
+            font-family: var(--hand); font-size: 24px; cursor: pointer;
+            background: #EEE; border-radius: 8px 8px 0 0; transition: transform 0.15s;
+        }
+        .outer-menu-item[data-cat=html] .menu-title { background: var(--tab-html); }
+        .outer-menu-item[data-cat=css] .menu-title { background: var(--tab-css); }
+        .outer-menu-item[data-cat=js] .menu-title { background: var(--tab-js); }
+        .outer-menu-item:hover .menu-title { transform: translateY(-4px); }
+        .inner-menu {
+            top: 48px; width: auto; min-width: 150px; text-align: left;
+            background: #FFFDF6; border: 1px solid #E5DCC8; box-shadow: 3px 4px 0 rgba(80, 60, 30, 0.12);
+        }
+        .inner-menu-item > a {
+            padding: 6px 16px; font-family: var(--write); font-size: 17px; color: var(--ink);
+            border-bottom: 1px solid var(--rule); white-space: nowrap;
+        }
+        .inner-menu-item > a:hover { background: #FFF3B0; color: var(--ink); }
+        .search-bar { height: 30px; padding: 9px 0; }
+        .input-search {
+            width: 170px; height: 28px; padding: 0 4px; border: none; border-bottom: 2px solid var(--ink);
+            border-radius: 0; box-shadow: none; background: transparent; font-family: var(--write); font-size: 16px; color: var(--ink);
+        }
+        .input-search:focus { border-color: var(--red-pen); box-shadow: none; }
+        .input-search-submit {
+            height: 30px; width: 54px; margin-left: 8px; cursor: pointer; transform: rotate(-3deg);
+            font-family: var(--hand); font-size: 21px; color: var(--red-pen);
+            background: transparent; border: 2px solid var(--red-pen); border-radius: 4px;
+        }
+
+        /* 본문·사이드바 배치 (왼쪽은 펀치 구멍 자리) */
+        #content { padding: 30px 28px 16px 64px; }
+        #main-section { width: 596px; }
+        #main-aside { width: 240px; }
+        article { padding: 0; border-bottom: none; }
+
+        /* 노트 작성: 테이프로 붙인 포스트잇 */
+        .form-card {
+            position: relative; padding: 24px 24px 20px; background: var(--postit);
+            border-radius: 2px;
+            box-shadow: 0 10px 16px -8px rgba(80, 60, 30, 0.35);
+        }
+        .form-card::before {
+            content: ''; position: absolute; top: -13px; left: 50%; width: 120px; height: 26px;
+            margin-left: -60px; transform: rotate(-3deg);
+            background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .form-card .article-header { padding: 0; }
+        .form-card .article-title { font-family: var(--hand); font-size: 32px; font-weight: 400; padding: 0; }
+        .form-grid { display: grid; grid-template-columns: 1fr 150px; column-gap: 16px; }
+        .note-form label {
+            display: flex; justify-content: space-between; margin: 10px 0 2px;
+            font-family: var(--write); font-size: 17px; font-weight: 700;
+        }
+        .counter { font-family: var(--write); font-weight: 400; font-size: 15px; color: var(--pencil); }
+        .counter.over { color: var(--red-pen); }
+        .note-form input[type=text], .note-form select, .note-form textarea {
+            width: 100%; box-sizing: border-box; padding: 4px 2px; color: var(--ink);
+            font-family: var(--write); font-size: 18px;
+            background: transparent; border: none; border-bottom: 1.5px solid rgba(70, 55, 20, 0.45); border-radius: 0;
+        }
+        .note-form input[type=text]:focus, .note-form select:focus, .note-form textarea:focus {
+            outline: none; border-bottom-color: var(--ink);
+        }
+        .note-form textarea {
+            height: 86px; line-height: 28px; padding: 0 2px; resize: vertical; border-bottom: none;
+            background-image: repeating-linear-gradient(transparent 0, transparent 26.5px, rgba(70, 55, 20, 0.3) 26.5px, rgba(70, 55, 20, 0.3) 28px);
+            background-attachment: local;
+        }
+        .btn-primary {
+            margin-top: 12px; padding: 2px 22px; cursor: pointer;
+            font-family: var(--hand); font-size: 24px; color: var(--paper);
+            background: var(--ink); border: none; border-radius: 4px; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary:hover { background: #1B222C; }
+        #form-msg { display: inline-block; margin-left: 12px; font-family: var(--write); font-size: 17px; }
+        #form-msg.error { color: var(--red-pen); }
+        #form-msg.success { color: #2E7D32; }
+
+        /* 목록 상단 */
+        .toolbar { overflow: hidden; padding: 30px 2px 12px; }
+        #result-count { float: left; font-family: var(--hand); font-size: 26px; color: var(--pencil); line-height: 30px; }
+        #reset-filter {
+            float: right; margin-top: 2px; padding: 2px 12px; cursor: pointer;
+            font-family: var(--write); font-size: 15px; color: #7A3B3B;
+            background: #F6C9C4; border: none; border-radius: 4px; box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.12);
+        }
+        #reset-filter:hover { background: #F2B6AF; }
+
+        /* 노트 한 장: 빨간 여백선 + 파란 줄 + 손글씨 */
+        .note {
+            position: relative; margin-bottom: 22px; padding: 18px 24px 20px 62px;
+            background: #FFFDF7; border: 1px solid #E7DFCC; border-radius: 3px;
+            box-shadow: 3px 4px 0 -1px #F1EBDD, 0 2px 4px rgba(80, 60, 30, 0.08);
+            transition: transform 0.2s, outline-color 0.3s;
+            outline: 2px dashed transparent; outline-offset: 5px;
+        }
+        .note::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 44px; width: 1.5px; background: var(--margin);
+        }
+        .note:nth-child(even) { transform: rotate(0.25deg); }
+        .note:hover { transform: rotate(-0.4deg) translateY(-2px); }
+        .note.flash { outline-color: var(--red-pen); }
+        .note .article-header { padding: 0 110px 6px 0; }
+        .note .article-title { font-family: var(--hand); font-size: 32px; font-weight: 400; line-height: 1.1; padding-bottom: 6px; }
+        .article-date { font-family: var(--write); font-size: 15px; color: var(--pencil); }
+        .tag {
+            display: inline-block; margin-right: 4px; padding: 0 10px; transform: rotate(-2deg);
+            font-family: var(--hand); font-size: 19px; color: var(--ink); background: #EEE;
+        }
+        .note[data-cat=html] .tag { background: var(--tab-html); }
+        .note[data-cat=css] .tag { background: var(--tab-css); }
+        .note[data-cat=js] .tag { background: var(--tab-js); }
+        .article-body p {
+            font-family: var(--write); font-size: 18px; line-height: 28px; color: var(--ink); white-space: pre-line;
+            background-image: repeating-linear-gradient(transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px);
+        }
+        mark { color: inherit; background: linear-gradient(transparent 40%, #FFE066 40%, #FFE066 92%, transparent 92%); }
+        /* 북마크: 종이 위에 걸친 책갈피 리본 */
+        .bookmark-btn {
+            position: absolute; top: -1px; right: 22px; padding: 8px 10px 16px; cursor: pointer;
+            font-family: var(--write); font-size: 14px; color: var(--pencil);
+            background: #E9E3D5; border: none; border-radius: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); transition: background 0.2s, padding 0.2s;
+        }
+        .bookmark-btn:hover { background: #DDD4C1; padding-bottom: 20px; }
+        .bookmark-btn.on { background: var(--red-pen); color: white; font-weight: 700; padding-bottom: 22px; }
+        #empty-msg {
+            padding: 36px 10px; text-align: center; font-family: var(--write); font-size: 18px; color: var(--pencil);
+            border: 2px dashed #CBBFA4; border-radius: 6px;
+        }
+
+        /* 사이드바: 책상 위 색인 카드와 포스트잇 */
+        .aside-list {
+            margin-bottom: 24px; padding: 14px 16px 16px; background: #FFFEF9;
+            border: 1px solid #E7DFCC; border-top: 3px solid var(--margin);
+            box-shadow: 2px 3px 0 #EFE8D8; transform: rotate(0.6deg);
+        }
+        .aside-list:nth-child(2) { transform: rotate(-0.5deg); }
+        .aside-list:nth-child(3) { background: #E3F1D4; border: none; transform: rotate(1deg); box-shadow: 0 8px 12px -8px rgba(80, 60, 30, 0.35); }
+        .aside-list > h3 { font-family: var(--hand); font-size: 26px; font-weight: 400; margin-bottom: 6px; }
+        .badge {
+            float: right; width: 30px; height: 30px; line-height: 30px; text-align: center; transform: rotate(-8deg);
+            font-family: var(--hand); font-size: 20px; color: var(--red-pen);
+            border: 1.5px solid var(--red-pen); border-radius: 50%;
+        }
+        .aside-list select {
+            width: 100%; padding: 4px 0; font-family: var(--write); font-size: 17px; color: var(--ink);
+            background: transparent; border: none; border-bottom: 1.5px solid var(--ink);
+        }
+        #bookmark-list li {
+            padding: 5px 2px; cursor: pointer; font-family: var(--write); font-size: 16px;
+            border-bottom: 1px dashed #D8CFBB;
+        }
+        #bookmark-list li::before { content: '✎ '; color: var(--red-pen); }
+        #bookmark-list li:hover { color: var(--red-pen); }
+        #bookmark-list li.empty { cursor: default; border: none; color: var(--pencil); }
+        #bookmark-list li.empty::before { content: ''; }
+        .tips li { margin-bottom: 4px; font-family: var(--write); font-size: 15px; line-height: 1.5; color: #44513A; }
+        kbd { padding: 0 4px; font-family: var(--write); font-size: 13px; background: white; border: 1px solid #9AAE87; border-radius: 3px; }
+
+        #main-footer { padding: 18px 18px 22px 64px; text-align: center; border-top: 1px dashed #CBBFA4; }
+        #main-footer a { font-family: var(--hand); font-size: 22px; color: var(--pencil); }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script>
+        $(document).ready(function () {
+            // [교재 기능 + 개선] hover: 하위 메뉴를 slideDown/slideUp으로 부드럽게 열고 닫음
+            //   .stop(true, true)로 마우스를 빠르게 오갈 때 애니메이션이 쌓이지 않게 함
+            $('.outer-menu-item').hover(function () {
+                $(this).find('.inner-menu').stop(true, true).slideDown(150);
+            }, function () {
+                $(this).find('.inner-menu').stop(true, true).slideUp(100);
+            });
+
+            var CAT_NAME = { html: 'HTML5', css: 'CSS3', js: 'JavaScript' };
+
+            // 각 노트 제목의 원래 글자를 data('title')에 저장 (검색어 강조를 지울 때 사용)
+            $('.note .article-title').each(function () {
+                $(this).data('title', $(this).text());
+            });
+
+            // 제목에서 검색어와 같은 부분만 <mark>로 감쌈 (글자는 모두 텍스트 노드로 넣어 태그가 실행되지 않음)
+            function highlight($title, keyword) {
+                var title = $title.data('title');
+                var i = keyword ? title.toLowerCase().indexOf(keyword) : -1;
+                if (i === -1) {
+                    $title.text(title);
+                    return;
+                }
+                $title.empty().append(
+                    document.createTextNode(title.slice(0, i)),
+                    $('<mark>').text(title.slice(i, i + keyword.length)),
+                    document.createTextNode(title.slice(i + keyword.length))
+                );
+            }
+
+            // 검색어(#note-search)와 챕터(#cat-select)를 함께 적용해 .note 글을 보이거나 숨김
+            function applyFilter() {
+                var keyword = $.trim($('#note-search').val()).toLowerCase();
+                var cat = $('#cat-select').val();
+                var shown = 0;
+                $('.note').each(function () {
+                    var $note = $(this);
+                    // 수정: 본문까지 검색하면 'box'가 'checkbox'에도 걸려서 제목에서만 검색
+                    var text = $note.find('.article-title').text().toLowerCase();
+                    var ok = (cat === 'all' || $note.data('cat') === cat) && text.indexOf(keyword) !== -1;
+                    $note.toggle(ok);
+                    highlight($note.find('.article-title'), ok ? keyword : '');
+                    if (ok) shown++;
+                });
+                $('#result-count').text(shown + '개의 노트');
+                $('#empty-msg').toggle(shown === 0);                     // 결과가 0개면 안내 문구 표시
+                $('#reset-filter').toggle(keyword !== '' || cat !== 'all'); // 조건이 있을 때만 초기화 버튼 표시
+            }
+
+            // 검색어와 챕터를 처음 상태로 되돌림
+            function resetFilter() {
+                $('#note-search').val('');
+                $('#cat-select').val('all');
+                applyFilter();
+            }
+
+            // 북마크된 버튼(.bookmark-btn.on) 수를 사이드바·헤더에, 제목 목록을 #bookmark-list에 표시
+            function updateBookmarks() {
+                var $on = $('.bookmark-btn.on');
+                var $list = $('#bookmark-list').empty();
+                $('#bookmark-count, #stat-bookmark').text($on.length);
+                $on.each(function () {
+                    var $note = $(this).closest('.note');
+                    // 목록 항목에 해당 노트를 data로 연결해 두고, 누르면 그 노트로 이동
+                    $('<li>').text($note.find('.article-title').text()).data('note', $note).appendTo($list);
+                });
+                if ($on.length === 0) $('<li class="empty">').text('아직 북마크한 노트가 없습니다.').appendTo($list);
+            }
+
+            // 입력한 글자 수를 표시하고, 허용 범위를 벗어나면 빨간색(.over)으로 바꿈
+            function updateCounters() {
+                var t = $.trim($('#new-title').val()).length;
+                var b = $.trim($('#new-body').val()).length;
+                $('#title-count').text(t + ' / 30').toggleClass('over', t > 30 || (t > 0 && t < 2));
+                $('#body-count').text(b + '자').toggleClass('over', b > 0 && b < 5);
+            }
+
+            // 노트 테두리를 잠깐 강조해 어디인지 알려 줌
+            function flash($note) {
+                $note.addClass('flash');
+                setTimeout(function () { $note.removeClass('flash'); }, 1200);
+            }
+
+            // ① input 이벤트: 상단 검색창(#note-search)에 글자를 입력할 때마다 노트 목록이 즉시 걸러지고 검색어가 강조됨
+            $('#note-search').on('input', applyFilter);
+            //   같은 input 이벤트로 노트 작성 폼의 글자 수 표시도 갱신
+            $('#new-title, #new-body').on('input', updateCounters);
+
+            // ⑤ keydown 이벤트: 검색창에서 Esc를 누르면 검색어·챕터가 초기화됨
+            $('#note-search').on('keydown', function (event) {
+                if (event.key === 'Escape') resetFilter();
+            });
+
+            // ② change 이벤트: 사이드바 챕터 선택(#cat-select)을 바꾸면 해당 챕터 노트만 남음
+            $('#cat-select').on('change', applyFilter);
+
+            // ③ click 이벤트(위임): 노트의 북마크 버튼을 누르면 ☆↔★ 전환, 사이드바·헤더 북마크 개수와 목록 변경
+            //    새로 등록한 노트에도 동작하도록 #main-section에 위임해서 등록
+            $('#main-section').on('click', '.bookmark-btn', function () {
+                var on = $(this).toggleClass('on').hasClass('on');
+                $(this).text(on ? '★ 북마크됨' : '☆ 북마크').attr('aria-pressed', on);
+                updateBookmarks();
+            });
+
+            // ③ click 이벤트(같은 종류): 사이드바 북마크 제목을 누르면 해당 노트까지 animate로 부드럽게 스크롤
+            $('#bookmark-list').on('click', 'li', function () {
+                var $note = $(this).data('note');
+                if (!$note) return;                              // '아직 없음' 안내 줄은 무시
+                if (!$note.is(':visible')) resetFilter();        // 필터에 가려져 있으면 먼저 전체 표시
+                $('html, body').animate({ scrollTop: $note.offset().top - 70 }, 400);
+                flash($note);
+            });
+
+            // ③ click 이벤트(같은 종류): 드롭다운 하위 메뉴(.inner-menu a)를 누르면 챕터·검색어를 채워 목록을 걸러 줌
+            $('.inner-menu').on('click', 'a', function (event) {
+                event.preventDefault();
+                $('#note-search').val($(this).data('keyword'));
+                $('#cat-select').val($(this).closest('.outer-menu-item').data('cat')).trigger('change');
+                $(this).closest('.inner-menu').stop(true, true).slideUp(100);
+            });
+
+            // ③ click 이벤트(같은 종류): '필터 초기화' 버튼
+            $('#reset-filter').on('click', resetFilter);
+
+            // ④ submit 이벤트: 상단 검색 폼에서 Enter/검색 버튼을 눌러도 페이지가 새로고침되지 않게 막음
+            $('#search-form').on('submit', function (event) {
+                event.preventDefault();
+                applyFilter();
+            });
+
+            // ④ submit 이벤트: 노트 작성 폼(#note-form) 등록
+            //    빈 값·잘못된 길이·중복 제목을 검사하고, 통과하면 .text()로 새 노트를 #note-list 맨 위에 fadeIn으로 추가
+            $('#note-form').on('submit', function (event) {
+                event.preventDefault();
+                var title = $.trim($('#new-title').val());
+                var cat = $('#new-cat').val();
+                var body = $.trim($('#new-body').val());
+                var duplicate = $('.note .article-title').filter(function () {
+                    return $(this).text() === title;
+                }).length > 0;
+
+                var error = '';
+                if (!title || !cat || !body) error = '제목, 챕터, 내용을 모두 입력하세요.';
+                else if (title.length < 2 || title.length > 30) error = '제목은 2~30자로 입력하세요.';
+                else if (body.length < 5) error = '내용은 5자 이상 입력하세요.';
+                else if (duplicate) error = '이미 같은 제목의 노트가 있습니다.';
+
+                if (error) {
+                    $('#form-msg').removeClass('success').addClass('error').text(error);
+                    // 잘못 입력하면 폼 카드를 좌우로 짧게 흔들어 알려 줌 (animate 체이닝)
+                    $('.form-card').stop(true, true)
+                        .animate({ left: -8 }, 60).animate({ left: 8 }, 60).animate({ left: 0 }, 60);
+                    return;
+                }
+
+                var now = new Date();
+                var date = now.getFullYear() + '년 ' + (now.getMonth() + 1) + '월 ' + now.getDate() + '일';
+                // 입력값은 모두 .text()로 넣음 → <b> 같은 태그를 입력해도 HTML로 해석되지 않고 글자 그대로 표시
+                var $note = $('<article class="note">').attr('data-cat', cat).append(
+                    $('<div class="article-header">').append(
+                        $('<h1 class="article-title">').text(title).data('title', title),
+                        $('<p class="article-date">').append(
+                            $('<span class="tag">').text(CAT_NAME[cat]), document.createTextNode(' · ' + date)),
+                        $('<button type="button" class="bookmark-btn" aria-pressed="false">').text('☆ 북마크')
+                    ),
+                    $('<div class="article-body">').append($('<p>').text(body))
+                );
+                $('#note-list').prepend($note);
+
+                this.reset();
+                updateCounters();
+                $('#form-msg').removeClass('error').addClass('success').text('"' + title + '" 노트가 등록되었습니다.');
+                $('#stat-total').text($('.note').length);
+                applyFilter();
+                if ($note.is(':visible')) $note.hide().fadeIn(400);   // 새 노트가 서서히 나타남
+                flash($note);
+            });
+
+            applyFilter();
+            updateBookmarks();
+            updateCounters();
+            $('#stat-total').text($('.note').length);
+        });
+    </script>
+</head>
+<body>
+<div id="page-wrapper">
+    <!--header-->
+    <header id="main-header">
+        <hgroup>
+            <h1 class="master-title">프로그래밍 학습 노트</h1>
+            <h2 class="master-description">수업을 복습하는 학생이 개념을 찾아보고, 북마크하고, 메모로 남기는 노트</h2>
+        </hgroup>
+        <div class="name-tag">
+            <p>과목 <b>프론트엔드 개발 기초</b></p>
+            <p>이름 <b>정환희</b></p>
+            <p>학번 <b>2026103023</b></p>
+        </div>
+        <p class="stats">
+            <span class="stat">노트 <b id="stat-total">0</b>개</span>
+            <span class="stat">북마크 <b id="stat-bookmark">0</b>개</span>
+        </p>
+    </header>
+    <!--navigation: 교재의 드롭다운 구조 유지, 하위 메뉴는 챕터·키워드 바로가기-->
+    <nav id="main-navigation">
+        <div class="pull-left">
+            <ul class="outer-menu">
+                <li class="outer-menu-item" data-cat="html">
+                    <span class="menu-title">HTML5</span>
+                    <ul class="inner-menu">
+                        <li class="inner-menu-item"><a href="#" data-keyword="">전체</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="시맨틱">시맨틱 태그</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="form">입력 양식</a></li>
+                    </ul>
+                </li>
+                <li class="outer-menu-item" data-cat="css">
+                    <span class="menu-title">CSS3</span>
+                    <ul class="inner-menu">
+                        <li class="inner-menu-item"><a href="#" data-keyword="">전체</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="float">float</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="position">position</a></li>
+                    </ul>
+                </li>
+                <li class="outer-menu-item" data-cat="js">
+                    <span class="menu-title">JavaScript</span>
+                    <ul class="inner-menu">
+                        <li class="inner-menu-item"><a href="#" data-keyword="">전체</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="DOM">DOM</a></li>
+                        <li class="inner-menu-item"><a href="#" data-keyword="jQuery">jQuery</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="pull-right">
+            <div class="search-bar">
+                <form id="search-form">
+                    <input type="text" id="note-search" class="input-search" placeholder="개념 검색 (Esc 초기화)">
+                    <input type="submit" class="input-search-submit" value="검색">
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!--content-->
+    <div id="content">
+        <!--Left Area-->
+        <section id="main-section">
+            <article class="form-card">
+                <div class="article-header">
+                    <h1 class="article-title">✏️ 새 노트 작성</h1>
+                </div>
+                <form id="note-form" class="note-form" novalidate>
+                    <div class="form-grid">
+                        <div>
+                            <label for="new-title">제목 <span class="counter" id="title-count">0 / 30</span></label>
+                            <input type="text" id="new-title" placeholder="예: box-sizing 정리">
+                        </div>
+                        <div>
+                            <label for="new-cat">챕터</label>
+                            <select id="new-cat">
+                                <option value="">-- 선택 --</option>
+                                <option value="html">HTML5</option>
+                                <option value="css">CSS3</option>
+                                <option value="js">JavaScript</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label for="new-body">내용 (5자 이상) <span class="counter" id="body-count">0자</span></label>
+                    <textarea id="new-body" placeholder="배운 내용을 적어 보세요"></textarea>
+                    <button type="submit" class="btn-primary">노트 등록</button>
+                    <p id="form-msg" aria-live="polite"></p>
+                </form>
+            </article>
+
+            <div class="toolbar">
+                <p id="result-count" aria-live="polite"></p>
+                <button type="button" id="reset-filter">✕ 필터 초기화</button>
+            </div>
+            <div id="note-list">
+                <article class="note" data-cat="html">
+                    <div class="article-header">
+                        <h1 class="article-title">시맨틱 태그로 레이아웃 나누기</h1>
+                        <p class="article-date"><span class="tag">HTML5</span> · 2026년 3월 24일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>header, nav, section, article, aside, footer로 영역의 의미를 드러낸다.
+div만 쓰는 것보다 구조를 읽기 쉽고, 검색엔진·스크린리더도 이해하기 쉽다.</p>
+                    </div>
+                </article>
+                <article class="note" data-cat="html">
+                    <div class="article-header">
+                        <h1 class="article-title">입력 양식(form) 기본</h1>
+                        <p class="article-date"><span class="tag">HTML5</span> · 2026년 3월 31일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>form 안에 input(text, password, checkbox, radio), select, textarea를 넣는다.
+label의 for와 input의 id를 맞추면 글자를 눌러도 입력칸이 선택된다.</p>
+                    </div>
+                </article>
+                <article class="note" data-cat="css">
+                    <div class="article-header">
+                        <h1 class="article-title">float와 overflow: hidden</h1>
+                        <p class="article-date"><span class="tag">CSS3</span> · 2026년 4월 28일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>자식을 float 하면 부모 높이가 0이 된다.
+부모에 overflow: hidden을 주면 float된 자식을 감싸 높이가 생긴다. (이 페이지의 #content도 같은 방법)</p>
+                    </div>
+                </article>
+                <article class="note" data-cat="css">
+                    <div class="article-header">
+                        <h1 class="article-title">position으로 드롭다운 만들기</h1>
+                        <p class="article-date"><span class="tag">CSS3</span> · 2026년 5월 12일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>부모 메뉴에 position: relative, 하위 메뉴에 position: absolute를 주면
+하위 메뉴가 부모 기준으로 아래에 붙는다. 평소엔 display: none으로 숨긴다.</p>
+                    </div>
+                </article>
+                <article class="note" data-cat="js">
+                    <div class="article-header">
+                        <h1 class="article-title">DOM 요소 선택</h1>
+                        <p class="article-date"><span class="tag">JavaScript</span> · 2026년 11월 3일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>document.querySelector('선택자')는 첫 번째 요소 하나,
+querySelectorAll은 모든 요소를 가져온다. 스크립트가 body보다 먼저 실행되면 요소를 못 찾는다.</p>
+                    </div>
+                </article>
+                <article class="note" data-cat="js">
+                    <div class="article-header">
+                        <h1 class="article-title">jQuery .on() 이벤트 연결</h1>
+                        <p class="article-date"><span class="tag">JavaScript</span> · 2026년 11월 17일</p>
+                        <button type="button" class="bookmark-btn" aria-pressed="false">☆ 북마크</button>
+                    </div>
+                    <div class="article-body">
+                        <p>$(선택자).on('이벤트', 함수) 형태로 click, input, change, submit 등을 연결한다.
+$(부모).on('click', '자식선택자', 함수)처럼 쓰면 나중에 추가된 요소에도 동작한다(이벤트 위임).</p>
+                    </div>
+                </article>
+            </div>
+            <p id="empty-msg">조건에 맞는 노트가 없습니다. 검색어나 챕터를 바꿔 보세요.</p>
+        </section>
+        <!--Right Area-->
+        <aside id="main-aside">
+            <div class="aside-list">
+                <h3>챕터 분류</h3>
+                <select id="cat-select">
+                    <option value="all">전체</option>
+                    <option value="html">HTML5</option>
+                    <option value="css">CSS3</option>
+                    <option value="js">JavaScript</option>
+                </select>
+            </div>
+            <div class="aside-list">
+                <h3>★ 북마크 <span class="badge" id="bookmark-count">0</span></h3>
+                <ul id="bookmark-list"></ul>
+            </div>
+            <div class="aside-list">
+                <h3>사용 팁</h3>
+                <ul class="tips">
+                    <li>검색창에서 <kbd>Esc</kbd> → 검색 초기화</li>
+                    <li>상단 메뉴 하위 항목 → 챕터·키워드 바로 보기</li>
+                    <li>북마크 제목 클릭 → 해당 노트로 이동</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    <!--footer-->
+    <footer id="main-footer">
+        <a href="#">2026103023 - 정환희</a>
+    </footer>
+</div>
+</body>
+</html>
