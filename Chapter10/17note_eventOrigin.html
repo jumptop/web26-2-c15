@@ -9,7 +9,11 @@
 
 <body>
     <button id="button">버튼 - </button>
-   
+    <script>
+        document.getElementById('button').onclick = function() {
+            this.textContent = this.textContent + '⭐️';
+        };
+    </script>
 
 
 
